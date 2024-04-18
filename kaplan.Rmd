@@ -1,0 +1,30 @@
+---
+title: "kaplan-Meier"
+author: "Adwait"
+date: "2023-11-06"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#install.packages(c("tidyverse","survminer","survival"))
+library(tidyverse)
+library(survminer)
+library(survival)
+library(dplyr)
+
+kaplan <- read.csv("C:/Users/anant/OneDrive/Desktop/Experiment Data/kaplan2.CSV")
+
+kmcurve <- survfit(Surv(Time,Death)~Group, data=kaplan)
+
+ggsurvplot(kmcurve)
+
+ggsurvplot(kmcurve, break.x.by = 20, pval = TRUE, risk.table = TRUE ,surv.scale="percent", title = "Kaplan-Meier curve", ggtheme = theme_gray())
+
+cox.mod <- coxph(Surv(Time,Death) ~ Group, data = kaplan)
+summary(cox.mod)
+
+```
